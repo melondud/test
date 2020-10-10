@@ -1,0 +1,59 @@
+<html>
+<head>
+<style>
+button {
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 32px;
+	margin: 4px 2px;
+	cursor: pointer;
+	
+	position: fixed; /* or absolute */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+body {
+	margin: 0;
+}
+</style>
+</head>
+<body>
+	<div><button onclick="newgame()" id="butt">Start!</button></div>
+	<canvas id="can"></canvas>
+	
+	<script>
+	var can=document.getElementById("can");
+	var button=document.getElementById("butt");
+	function newgame(){
+		button.style.display="none";
+		can.width=document.body.clientWidth;
+		can.height=document.body.clientHeight;
+		con=can.getContext("2d");
+		radius=50;
+		x=can.width/2;
+		y=can.height/2;
+		dx=1;
+		dy=1.618;
+		window.requestAnimationFrame(tick);
+	}
+	function tick(t){
+		for (let i=0;i<10;i++){
+			x=x+dx+Math.sin(t/1000)/5;
+			y=y+dy;
+			if ((x-radius)<0){dx=Math.abs(dx)}
+			if ((y-radius)<0){dy=Math.abs(dy)}
+			if ((x+radius)>can.width){dx=-Math.abs(dx)}
+			if ((y+radius)>can.height){dy=-Math.abs(dy)}
+		}
+		con.beginPath();
+		con.clearRect(0,0,can.width,can.height);
+		con.arc(x,y,radius,0,2*Math.PI);
+		con.fill();
+		window.requestAnimationFrame(tick);
+	}
+	</script>
+</body>
+</html>
